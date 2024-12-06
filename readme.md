@@ -18,3 +18,16 @@ Assist me in implementing the `ParkingLotManager` class.
 ## Additional Instructions
 1. Provide explanations in Cantonese.
 2. No need to add comments; just ensure that naming conventions clearly express functionality.
+
+# 2. test, add test cases for ParkingLotManager
+@workspace
+
+## Requirement
+Help me to create unit test cases for the `ParkingLotManager` class.
+
+## Rules
+Ensure your code
+1. following the format Given/When/Then
+2. with high coverage
+3. have no code smells
+4. be concise, e.g. using @ParmeterizedTest
