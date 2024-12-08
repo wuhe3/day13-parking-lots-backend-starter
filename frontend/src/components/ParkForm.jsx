@@ -17,7 +17,16 @@ function ParkForm({ parkingBoys, onParkSuccess, storedCars, setStoredCars }) {
         return true;
     };
 
+    const isPlateNumberExists = (plateNumber) => {
+        return storedCars.some(car => car.plateNumber === plateNumber);
+    };
+
     const parkCar = async () => {
+        if (isPlateNumberExists(plateNumber)) {
+            alert('Plate number already exists!');
+            return;
+        }
+
         try {
             const response = await Client.post('/park', { plateNumber, strategyNo: selectedBoy });
             alert('Car parked successfully!');
