@@ -10,7 +10,7 @@ function ParkForm({ parkingBoys, onParkSuccess, storedCars, setStoredCars }) {
     const validatePlateNumber = (plateNumber) => {
         const plateRegex = /^[A-Z]{2}-\d{4}$/;
         if (!plateRegex.test(plateNumber)) {
-            setError('Plate number must follow the format: 2 letters + four digits (e.g., AB-1234)');
+            alert('Plate number must follow the format: 2 letters + four digits (e.g., AB-1234)');
             return false;
         }
         setError('');
