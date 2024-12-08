@@ -6,7 +6,6 @@ import './ParkingLot.css';
 function ParkingLot({ parkingLots }) {
     return (
         <div>
-            <h1>Parking Lots</h1>
             <div className="parking-lots-grid">
                 {parkingLots.map(lot => (
                     <ParkingLotCard key={lot.id} lot={lot} />
