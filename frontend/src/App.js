@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Client from './api/Client';
 import ParkingLot from './components/ParkingLot';
-import ParkForm from './components/ParkForm';
+import ParkAndFetch from './components/ParkAndFetch';
 
 function App() {
     const [parkingLots, setParkingLots] = useState([]);
@@ -28,7 +28,7 @@ function App() {
 
     return (
         <div className="App">
-            <ParkForm parkingBoys={parkingBoys} onParkSuccess={fetchParkingLots} />
+            <ParkAndFetch parkingBoys={parkingBoys} onParkSuccess={fetchParkingLots} />
             <ParkingLot parkingLots={parkingLots} />
         </div>
     );

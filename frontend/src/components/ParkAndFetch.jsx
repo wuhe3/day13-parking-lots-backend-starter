@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Client from '../api/Client';
-import './ParkForm.css';
+import './ParkAndFetch.css';
 
-function ParkForm({ parkingBoys, onParkSuccess }) {
+function ParkAndFetch({ parkingBoys, onParkSuccess }) {
     const [plateNumber, setPlateNumber] = useState('');
     const [selectedBoy, setSelectedBoy] = useState(parkingBoys[0].id);
     const [error, setError] = useState('');
@@ -11,34 +11,27 @@ function ParkForm({ parkingBoys, onParkSuccess }) {
     const validatePlateNumber = (plateNumber) => {
         const plateRegex = /^[A-Z]{2}-\d{4}$/;
         if (!plateRegex.test(plateNumber)) {
-            alert('Plate number must follow the format: 2 letters + four digits (e.g., AB-1234)');
+            setError('Plate number must follow the format: 2 letters + four digits (e.g., AB-1234)');
             return false;
         }
         setError('');
         return true;
     };
 
-    const handlePark = (e) => {
-        e.preventDefault();
-        if (!validatePlateNumber(plateNumber)) return;
-
-        Client.post('/park', { plateNumber, strategyNo: selectedBoy })
-            .then(response => {
-                alert('Car parked successfully!');
-                setStoredCars([...storedCars, { plateNumber, position: response.data.position, parkingLot: response.data.parkingLot }]);
-                setPlateNumber('');
-                onParkSuccess();
-            })
-            .catch(error => {
-                console.error('There was an error parking the car!', error);
-                alert('There was an error parking the car!');
-            });
+    const parkCar = async () => {
+        try {
+            const response = await Client.post('/park', { plateNumber, strategyNo: selectedBoy });
+            alert('Car parked successfully!');
+            setStoredCars([...storedCars, { plateNumber, position: response.data.position, parkingLot: response.data.parkingLot }]);
+            setPlateNumber('');
+            onParkSuccess();
+        } catch (error) {
+            console.error('There was an error parking the car!', error);
+            alert('There was an error parking the car!');
+        }
     };
 
-    const handleFetch = (e) => {
-        e.preventDefault();
-        if (!validatePlateNumber(plateNumber)) return;
-
+    const fetchCar = async () => {
         const carDetails = getCarDetails(plateNumber);
         if (!carDetails) {
             alert('Car details not found!');
@@ -46,17 +39,30 @@ function ParkForm({ parkingBoys, onParkSuccess }) {
         }
         const { position, parkingLot } = carDetails;
 
-        Client.post('/fetch', { plateNumber, position, parkingLot })
-            .then(response => {
-                alert('Car fetched successfully!');
-                setStoredCars(storedCars.filter(car => car.plateNumber !== plateNumber));
-                setPlateNumber('');
-                onParkSuccess();
-            })
-            .catch(error => {
-                console.error('There was an error fetching the car!', error);
-                alert('There was an error fetching the car!');
-            });
+        try {
+            await Client.post('/fetch', { plateNumber, position, parkingLot });
+            alert('Car fetched successfully!');
+            setStoredCars(storedCars.filter(car => car.plateNumber !== plateNumber));
+            setPlateNumber('');
+            onParkSuccess();
+        } catch (error) {
+            console.error('There was an error fetching the car!', error);
+            alert('There was an error fetching the car!');
+        }
+    };
+
+    const handlePark = (e) => {
+        e.preventDefault();
+        if (validatePlateNumber(plateNumber)) {
+            parkCar();
+        }
+    };
+
+    const handleFetch = (e) => {
+        e.preventDefault();
+        if (validatePlateNumber(plateNumber)) {
+            fetchCar();
+        }
     };
 
     const getCarDetails = (plateNumber) => {
@@ -95,4 +101,4 @@ function ParkForm({ parkingBoys, onParkSuccess }) {
     );
 }
 
-export default ParkForm;
+export default ParkAndFetch;
