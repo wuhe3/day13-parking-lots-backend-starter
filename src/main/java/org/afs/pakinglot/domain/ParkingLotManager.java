@@ -1,13 +1,16 @@
 package org.afs.pakinglot.domain;
 
+import org.afs.pakinglot.domain.exception.UnrecognizedTicketException;
 import org.afs.pakinglot.domain.strategies.ParkingStrategy;
 import org.afs.pakinglot.domain.strategies.SequentiallyStrategy;
 import org.afs.pakinglot.domain.strategies.MaxAvailableStrategy;
 import org.afs.pakinglot.domain.strategies.AvailableRateStrategy;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ParkingLotManager {
     private static final int PLAZA_PARK_ID = 1;
     private static final int CITY_MALL_GARAGE_ID = 2;
@@ -45,5 +48,24 @@ public class ParkingLotManager {
 
     public ParkingLot findParkingLot(ParkingStrategy strategy) {
         return strategy.findParkingLot(parkingLots);
+    }
+
+    public Ticket park(Car car, int strategyNo) {
+        ParkingBoy parkingBoy = parkingBoys.get(strategyNo - 1);
+        return parkingBoy.park(car);
+    }
+
+    public Car fetch(Ticket ticket) {
+        for (ParkingBoy parkingBoy : parkingBoys) {
+            try {
+                return parkingBoy.fetch(ticket);
+            } catch (UnrecognizedTicketException ignored) {
+            }
+        }
+        throw new UnrecognizedTicketException();
+    }
+
+    public List<ParkingLot> getAllParkingLots() {
+        return new ArrayList<>(parkingLots);
     }
 }
