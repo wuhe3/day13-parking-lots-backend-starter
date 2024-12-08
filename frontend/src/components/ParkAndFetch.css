@@ -1,44 +1,110 @@
 .park-form {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 16px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow:
+            8px 8px 16px #d1d1d1,
+            -8px -8px 16px #ffffff;
+    max-width: 32rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.park-form:hover {
+    transform: translateY(-2px);
 }
 
 .park-form h2 {
-    margin-top: 0;
-    font-size: 1.5em;
+    margin: 0 0 24px 0;
+    font-size: 1.75rem;
+    color: #2c3e50;
 }
 
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    position: relative;
 }
 
 .form-group label {
     display: block;
     margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #34495e;
+    transition: color 0.3s ease;
 }
 
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    max-width: 300px;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
 button {
-    background-color: #4caf50;
+    background: linear-gradient(135deg, #4caf50, #45a049);
     color: white;
-    padding: 10px 16px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 12px;
     cursor: pointer;
-    margin-right: 8px; /* Add margin to separate buttons */
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.forms-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    padding: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.collapsible-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .park-form {
+        background: linear-gradient(145deg, #2c3e50, #34495e);
+        box-shadow:
+                8px 8px 16px #1a2530,
+                -8px -8px 16px #3c526a;
+    }
+
+    .form-group input,
+    .form-group select {
+        background: rgba(0, 0, 0, 0.2);
+        border-color: #456789;
+        color: #fff;
+    }
+
+    .form-group label {
+        color: #ecf0f1;
+    }
 }
