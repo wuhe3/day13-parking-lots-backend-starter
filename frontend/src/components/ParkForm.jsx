@@ -5,9 +5,17 @@ import './ParkForm.css';
 function ParkForm({ parkingBoys, onParkSuccess }) {
     const [plateNumber, setPlateNumber] = useState('');
     const [selectedBoy, setSelectedBoy] = useState(parkingBoys[0].id);
+    const [error, setError] = useState('');
 
     const handlePark = (e) => {
         e.preventDefault();
+        const plateRegex = /^[A-Z]{2}-\d{4}$/;
+        if (!plateRegex.test(plateNumber)) {
+            setError('Plate number must follow the format: 2 letters + four digits (e.g., AB-1234)');
+            alert('Plate number must follow the format: 2 letters + four digits (e.g., AB-1234)');
+            return;
+        }
+        setError('');
         Client.post('/park', { plateNumber, strategyNo: selectedBoy })
             .then(response => {
                 alert('Car parked successfully!');
@@ -16,6 +24,7 @@ function ParkForm({ parkingBoys, onParkSuccess }) {
             })
             .catch(error => {
                 console.error('There was an error parking the car!', error);
+                alert('There was an error parking the car!');
             });
     };
 
@@ -31,6 +40,7 @@ function ParkForm({ parkingBoys, onParkSuccess }) {
                     onChange={(e) => setPlateNumber(e.target.value)}
                     required
                 />
+                {error && <p className="error">{error}</p>}
             </div>
             <div className="form-group">
                 <label htmlFor="parkingBoy">Select Parking Boy:</label>
